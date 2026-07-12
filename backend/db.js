@@ -16,8 +16,8 @@ db.exec(`
     cover_image TEXT,
     category TEXT DEFAULT "Resep",
     published INTEGER DEFAULT 0,
-    created_at TEXT DEFAULT (datetime("now")),
-    updated_at TEXT DEFAULT (datetime("now"))
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP
   );
 
   CREATE TABLE IF NOT EXISTS admin_users (
