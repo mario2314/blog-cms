@@ -14,8 +14,9 @@ const JWT_SECRET = process.env.JWT_SECRET || "ganti-secret-ini-di-env";
 app.use(cors());
 app.use(express.json());
 
-const uploadDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+const dataDir = process.env.DATA_DIR || __dirname;
+const uploadDir = path.join(dataDir, "uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 app.use("/uploads", express.static(uploadDir));
 
 const storage = multer.diskStorage({
