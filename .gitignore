@@ -1,0 +1,7 @@
+﻿node_modules/
+backend/blog.db
+backend/uploads/
+backend/.env
+frontend/dist/
+.DS_Store
+*.log
