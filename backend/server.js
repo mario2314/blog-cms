@@ -189,7 +189,7 @@ app.post("/api/admin/posts", authMiddleware, asyncHandler((req, res) => {
 app.put("/api/admin/posts/:id", authMiddleware, asyncHandler((req, res) => {
   const { title, excerpt, content, cover_image, category, published } = req.body;
   db.prepare(
-    `UPDATE posts SET title=?, excerpt=?, content=?, cover_image=?, category=?, published=?, updated_at=datetime("now") WHERE id=?`
+    `UPDATE posts SET title=?, excerpt=?, content=?, cover_image=?, category=?, published=?, updated_at=datetime('now') WHERE id=?`
   ).run(title, excerpt || "", content, cover_image || "", category || "Resep", published ? 1 : 0, req.params.id);
   res.json({ success: true });
 }));
@@ -218,3 +218,4 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`Backend jalan di http://localhost:${PORT}`));
+
