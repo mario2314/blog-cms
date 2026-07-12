@@ -27,20 +27,13 @@ export default function Layout() {
             <span className="font-body text-xl font-bold text-primary">{siteName}</span>
           </Link>
           <nav aria-label="Navigasi utama">
-            <Link
-              to={adminHref}
-              className="rounded-full border border-primary px-4 py-1.5 font-body text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white"
-            >
+            <Link to={adminHref} className="rounded-full border border-primary px-4 py-1.5 font-body text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-white">
               {adminLabel}
             </Link>
           </nav>
         </div>
       </header>
-
-      <main>
-        <Outlet />
-      </main>
-
+      <main><Outlet /></main>
       <footer className="border-t border-grey-lighter">
         <div className="container mx-auto px-4 py-8 text-center">
           <p className="font-body text-sm font-light text-gray-500">

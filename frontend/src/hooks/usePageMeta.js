@@ -3,7 +3,6 @@
 export function usePageMeta({ title, description, canonical }) {
   useEffect(() => {
     if (title) document.title = title;
-
     if (description) {
       let tag = document.querySelector('meta[name="description"]');
       if (!tag) {
@@ -13,7 +12,6 @@ export function usePageMeta({ title, description, canonical }) {
       }
       tag.setAttribute("content", description);
     }
-
     if (canonical) {
       let link = document.querySelector('link[rel="canonical"]');
       if (!link) {

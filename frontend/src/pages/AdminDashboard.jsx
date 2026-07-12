@@ -15,26 +15,18 @@ export default function AdminDashboard() {
   const [tab, setTab] = useState("artikel");
   const [confirmId, setConfirmId] = useState(null);
   const [account, setAccount] = useState(null);
-  const [accountForm, setAccountForm] = useState({ currentPassword: "", newUsername: "", newPassword:"" });
+  const [accountForm, setAccountForm] = useState({ currentPassword: "", newUsername: "", newPassword: "" });
   const [savingAccount, setSavingAccount] = useState(false);
   const navigate = useNavigate();
   const showToast = useToast();
 
-  function loadPosts() {
-    getAdminPosts().then(setPosts);
-  }
+  function loadPosts() { getAdminPosts().then(setPosts); }
   useEffect(loadPosts, []);
 
   useEffect(() => {
     getAdminMe()
-      .then((data) => {
-        setAccount(data);
-        setAccountForm((f) => ({ ...f, newUsername: data.username }));
-      })
-      .catch(() => {
-        localStorage.removeItem("token");
-        navigate("/admin/login");
-      });
+      .then((data) => { setAccount(data); setAccountForm((f) => ({ ...f, newUsername: data.username })); })
+      .catch(() => { localStorage.removeItem("token"); navigate("/admin/login"); });
   }, [navigate]);
 
   async function handleDelete() {
@@ -44,10 +36,7 @@ export default function AdminDashboard() {
     showToast("Artikel berhasil dihapus", "success");
   }
 
-  function logout() {
-    localStorage.removeItem("token");
-    navigate("/admin/login");
-  }
+  function logout() { localStorage.removeItem("token"); navigate("/admin/login"); }
 
   async function handleAccountSubmit(e) {
     e.preventDefault();
@@ -74,14 +63,7 @@ export default function AdminDashboard() {
   if (editing) {
     return (
       <div className="container mx-auto max-w-3xl px-4 py-12">
-        <PostForm
-          postId={editing === "new" ? null : editing}
-          onDone={(msg) => {
-            setEditing(null);
-            loadPosts();
-            if (msg) showToast(msg, "success");
-          }}
-        />
+        <PostForm postId={editing === "new" ? null : editing} onDone={(msg) => { setEditing(null); loadPosts(); if (msg) showToast(msg, "success"); }} />
       </div>
     );
   }
@@ -92,39 +74,21 @@ export default function AdminDashboard() {
         <div>
           <h1 className="font-body text-2xl font-semibold text-primary">Dashboard Admin</h1>
           <p className="pt-1 font-body text-sm text-gray-500">
-            {account ? ((<>Masuk sebagai <strong className="text-primary">{account.username}</strong></>)) : "Memuat akun..."}
+            {account ? <>Masuk sebagai <strong className="text-primary">{account.username}</strong></> : "Memuat akun…"}
           </p>
         </div>
         <div className="flex gap-2">
           {tab === "artikel" && (
-            <button
-              type="button"
-              onClick={() => setEditing("new")}
-              className="rounded-lg bg-secondary px-4 py-2 font-body text-sm font-semibold text-white transition-colors hover:bg-green"
-            >
-              + Artikel Baru
-            </button>
+            <button type="button" onClick={() => setEditing("new")} className="rounded-lg bg-secondary px-4 py-2 font-body text-sm font-semibold text-white hover:bg-green">+ Artikel Baru</button>
           )}
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-lg border border-grey-light px-4 py-2 font-body text-sm font-semibold text-primary transition-colors hover:bg-grey-lightest"
-          >
-            Logout
-          </button>
+          <button type="button" onClick={logout} className="rounded-lg border border-grey-light px-4 py-2 font-body text-sm font-semibold text-primary hover:bg-grey-lightest">Logout</button>
         </div>
       </div>
 
       <div className="flex gap-1 border-b border-grey-lighter" role="tablist">
         {tabs.map((t) => (
-          <button
-            key={t.key}
-            type="button"
-            role="tab"
-            aria-selected={tab === t.key}
-            onClick={() => setTab(t.key)}
-            className={"border-b-2 px-4 py-2.5 font-body text-sm font-semibold transition-colors " + (tab === t.key ? "border-secondary text-secondary" : "border-transparent text-gray-500 hover:text-primary")}
-          >
+          <button key={t.key} type="button" role="tab" aria-selected={tab === t.key} onClick={() => setTab(t.key)}
+            className={`border-b-2 px-4 py-2.5 font-body text-sm font-semibold transition-colors ${tab === t.key ? "border-secondary text-secondary" : "border-transparent text-gray-500 hover:text-primary"}`}>
             {t.label}
           </button>
         ))}
@@ -148,31 +112,17 @@ export default function AdminDashboard() {
                     <td className="py-3 font-body text-sm text-primary">{p.title}</td>
                     <td className="py-3 font-body text-sm text-primary">{p.category}</td>
                     <td className="py-3">
-                      <span className={"rounded-full px-2.5 py-1 font-body text-xs font-semibold " + (p.published ? "bg-green-light text-green-dark" : "bg-grey-lighter text-primary")}>
+                      <span className={`rounded-full px-2.5 py-1 font-body text-xs font-semibold ${p.published ? "bg-green-light text-green-dark" : "bg-grey-lighter text-primary"}`}>
                         {p.published ? "Published" : "Draft"}
                       </span>
                     </td>
                     <td className="whitespace-nowrap py-3">
-                      <button
-                        type="button"
-                        onClick={() => setEditing(p.id)}
-                        className="mr-2 rounded-lg border border-grey-light px-3 py-1.5 font-body text-xs font-semibold text-primary hover:bg-grey-lightest"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setConfirmId(p.id)}
-                        className="rounded-lg bg-red-600 px-3 py-1.5 font-body text-xs font-semibold text-white hover:bg-red-700"
-                      >
-                        Hapus
-                      </button>
+                      <button type="button" onClick={() => setEditing(p.id)} className="mr-2 rounded-lg border border-grey-light px-3 py-1.5 font-body text-xs font-semibold text-primary hover:bg-grey-lightest">Edit</button>
+                      <button type="button" onClick={() => setConfirmId(p.id)} className="rounded-lg bg-red-600 px-3 py-1.5 font-body text-xs font-semibold text-white hover:bg-red-700">Hapus</button>
                     </td>
                   </tr>
                 ))}
-                {posts.length === 0 && (
-                  <tr><td colSpan="4" className="py-6 font-body text-sm text-gray-500">Belum ada artikel. Klik "+ Artikel Baru" untuk mulai menulis.</td></tr>
-                )}
+                {posts.length === 0 && <tr><td colSpan="4" className="py-6 font-body text-sm text-gray-500">Belum ada artikel. Klik "+ Artikel Baru" untuk mulai menulis.</td></tr>}
               </tbody>
             </table>
           </div>
@@ -182,9 +132,7 @@ export default function AdminDashboard() {
 
         {tab === "akun" && (
           <form onSubmit={handleAccountSubmit} className="max-w-md">
-            <p className="font-body text-sm font-light text-grey">
-              Ubah username dan/atau password admin. Password saat ini wajib diisi untuk konfirmasi.
-            </p>
+            <p className="font-body text-sm font-light text-gray-500">Ubah username dan/atau password admin. Password saat ini wajib diisi untuk konfirmasi.</p>
 
             <label htmlFor="newUsername" className={labelClass}>Username</label>
             <input id="newUsername" className={inputClass} value={accountForm.newUsername} onChange={(e) => setAccountForm((f) => ({ ...f, newUsername: e.target.value }))} required />
@@ -195,24 +143,14 @@ export default function AdminDashboard() {
             <label htmlFor="currentPassword" className={labelClass}>Password Saat Ini (wajib)</label>
             <input id="currentPassword" type="password" className={inputClass} value={accountForm.currentPassword} onChange={(e) => setAccountForm((f) => ({ ...f, currentPassword: e.target.value }))} required />
 
-            <button
-              type="submit"
-              disabled={savingAccount}
-              className="mt-6 rounded-lg bg-secondary px-5 py-2.5 font-body text-sm font-semibold text-white transition-colors hover:bg-green disabled:opacity-60"
-            >
-              {savingAccount ? "Menyimpan..." : "Simpan Perubahan"}
+            <button type="submit" disabled={savingAccount} className="mt-6 rounded-lg bg-secondary px-5 py-2.5 font-body text-sm font-semibold text-white hover:bg-green disabled:opacity-60">
+              {savingAccount ? "Menyimpan…" : "Simpan Perubahan"}
             </button>
           </form>
         )}
       </div>
 
-      <ConfirmDialog
-        open={confirmId !== null}
-        title="Hapus artikel?"
-        message="Artikel yang dihapus tidak bisa dikembalikan."
-        onConfirm={handleDelete}
-        onCancel={() => setConfirmId(null)}
-      />
+      <ConfirmDialog open={confirmId !== null} title="Hapus artikel?" message="Artikel yang dihapus tidak bisa dikembalikan." onConfirm={handleDelete} onCancel={() => setConfirmId(null)} />
     </div>
   );
 }

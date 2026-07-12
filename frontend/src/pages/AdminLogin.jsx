@@ -10,9 +10,7 @@ export default function AdminLogin() {
   const [settings, setSettings] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getSettings().then(setSettings).catch(() => {});
-  }, []);
+  useEffect(() => { getSettings().then(setSettings).catch(() => {}); }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -34,17 +32,22 @@ export default function AdminLogin() {
   return (
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <div className="hidden flex-col justify-center bg-primary px-14 py-10 text-white lg:flex">
-        {settings?.hero_eyebrow && (
-          <p className="font-body text-sm font-semibold uppercase tracking-wide text-yellow-dark">{settings.hero_eyebrow}</p>
-        )}
+        {settings?.hero_eyebrow && <p className="font-body text-sm font-semibold uppercase tracking-wide text-yellow-dark">{settings.hero_eyebrow}</p>}
         <h1 className="pt-3 font-body text-4xl font-bold">{settings?.site_name || "Blog"}</h1>
-        <p className="max-w-sm pt-4 font-body font-light text-blue-light">
-          {settings?.hero_subtitle || "Masuk untuk mulai mengelola artikel."}
-        </p>
+        <p className="max-w-sm pt-4 font-body font-light text-blue-light">{settings?.hero_subtitle || "Masuk untuk mulai mengelola artikel."}</p>
         <ul className="pt-6 space-y-2 font-body text-sm font-light text-blue-light">
-          <li className="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> Kelola artikel resep, review, dan tips</li>
-          <li className="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><path d="M21 16l-5-5-4 4-2-2-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> Unggah foto masakan langsung dari perangkat</li>
-          <li className="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/></svg> Atur akun & pengaturan situs dengan aman</li>
+          <li className="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+            Kelola artikel resep, review, dan tips
+          </li>
+          <li className="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="2"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><path d="M21 16l-5-5-4 4-2-2-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Unggah foto masakan langsung dari perangkat
+          </li>
+          <li className="flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-secondary shrink-0"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/></svg>
+            Atur akun & pengaturan situs dengan aman
+          </li>
         </ul>
       </div>
 
@@ -61,11 +64,7 @@ export default function AdminLogin() {
 
           {error && <p role="alert" className="pt-3 font-body text-sm text-red-600">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-6 w-full rounded-lg bg-secondary py-2.5 font-body font-semibold text-white transition-colors hover:bg-green disabled:opacity-60"
-          >
+          <button type="submit" disabled={loading} className="mt-6 w-full rounded-lg bg-secondary py-2.5 font-body font-semibold text-white hover:bg-green disabled:opacity-60">
             {loading ? "Memeriksa…" : "Masuk"}
           </button>
         </form>
@@ -73,7 +72,3 @@ export default function AdminLogin() {
     </div>
   );
 }
-
-
-
-

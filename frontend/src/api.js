@@ -1,4 +1,4 @@
-﻿const API_URL = "https://blog-cms-production-cb25.up.railway.app/api";
+﻿const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 export async function getPosts() {
   const res = await fetch(`${API_URL}/posts`);
@@ -13,32 +13,8 @@ export async function getPost(slug) {
 
 export async function getSettings() {
   const res = await fetch(`${API_URL}/settings`);
+  if (!res.ok) throw new Error("Gagal memuat pengaturan");
   return res.json();
-}
-
-export async function updateSettings(data) {
-  const res = await fetch(`${API_URL}/admin/settings`, {
-    method: "PUT",
-    headers: authHeaders(),
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error || "Gagal menyimpan pengaturan");
-  }
-  return res.json();
-}
-
-export async function getProfile() {
-  const s = await getSettings();
-  return {
-    name: s.site_name,
-    greeting: s.hero_title,
-    tagline: s.hero_subtitle,
-    story: s.story.split("\n\n"),
-    footer_note: s.footer_text,
-    socials: s.socials,
-  };
 }
 
 export async function login(username, password) {
@@ -55,27 +31,6 @@ function authHeaders() {
   const token = localStorage.getItem("token");
   return { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
 }
-
-export async function getAdminMe() {
-  const res = await fetch(`${API_URL}/admin/me`, { headers: authHeaders() });
-  if (!res.ok) throw new Error("Sesi berakhir, silakan login kembali");
-  return res.json();
-}
-
-export async function updateAdminAccount({ currentPassword, newUsername, newPassword }) {
-  const res = await fetch(`${API_URL}/admin/account`, {
-    method: "PUT",
-    headers: authHeaders(),
-    body: JSON.stringify({ currentPassword, newUsername, newPassword }),
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error || "Gagal update akun");
-  }
-  return res.json();
-}
-
-export const changeAccount = updateAdminAccount;
 
 export async function getAdminPosts() {
   const res = await fetch(`${API_URL}/admin/posts`, { headers: authHeaders() });
@@ -120,4 +75,32 @@ export async function uploadImage(file) {
   });
   if (!res.ok) throw new Error("Upload gagal");
   return res.json();
+}
+
+export async function getAdminMe() {
+  const res = await fetch(`${API_URL}/admin/me`, { headers: authHeaders() });
+  if (!res.ok) throw new Error("Gagal memuat akun");
+  return res.json();
+}
+
+export async function updateAdminAccount(data) {
+  const res = await fetch(`${API_URL}/admin/account`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Gagal memperbarui akun");
+  return json;
+}
+
+export async function updateSettings(data) {
+  const res = await fetch(`${API_URL}/admin/settings`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Gagal memperbarui pengaturan");
+  return json;
 }

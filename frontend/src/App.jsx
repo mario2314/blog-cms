@@ -10,10 +10,7 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard.jsx"));
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
-  if (!token) {
-    window.location.href = "/admin/login";
-    return null;
-  }
+  if (!token) { window.location.href = "/admin/login"; return null; }
   return children;
 }
 
@@ -28,14 +25,7 @@ export default function App() {
               <Route path="/post/:slug" element={<PostDetail />} />
             </Route>
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route
-              path="/admin"
-              element={
-                <PrivateRoute>
-                  <AdminDashboard />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/admin" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
           </Routes>
         </Suspense>
       </BrowserRouter>
