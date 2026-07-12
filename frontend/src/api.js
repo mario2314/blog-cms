@@ -1,4 +1,4 @@
-﻿const API_URL = "http://localhost:4000/api";
+﻿const API_URL = "https://blog-cms-production-cb25.up.railway.app/api";
 
 export async function getPosts() {
   const res = await fetch(`${API_URL}/posts`);
@@ -29,7 +29,6 @@ export async function updateSettings(data) {
   return res.json();
 }
 
-// getProfile dipakai Home.jsx & Layout.jsx, mapping dari settings ke bentuk lama
 export async function getProfile() {
   const s = await getSettings();
   return {
@@ -76,7 +75,6 @@ export async function updateAdminAccount({ currentPassword, newUsername, newPass
   return res.json();
 }
 
-// alias, kompatibel kalau ada komponen lain yang masih pakai nama lama
 export const changeAccount = updateAdminAccount;
 
 export async function getAdminPosts() {
