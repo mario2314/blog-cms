@@ -135,6 +135,7 @@ app.get("/api/settings", asyncHandler((req, res) => {
     hero_eyebrow: settings.hero_eyebrow || "",
     hero_title: settings.hero_title || "Selamat datang",
     hero_subtitle: settings.hero_subtitle || "",
+    hero_image: settings.hero_image || "",
     story: settings.story || "",
     footer_text: settings.footer_text || "",
     socials: safeParseSocials(settings.socials),
@@ -143,14 +144,15 @@ app.get("/api/settings", asyncHandler((req, res) => {
 
 app.put("/api/admin/settings", authMiddleware, asyncHandler((req, res) => {
   const current = db.prepare("SELECT * FROM settings WHERE id = 1").get();
-  const { site_name, hero_eyebrow, hero_title, hero_subtitle, footer_text, story, socials } = req.body;
+  const { site_name, hero_eyebrow, hero_title, hero_subtitle, hero_image, footer_text, story, socials } = req.body;
   db.prepare(
-    "UPDATE settings SET site_name=?, hero_eyebrow=?, hero_title=?, hero_subtitle=?, story=?, footer_text=?, socials=? WHERE id=1"
+    "UPDATE settings SET site_name=?, hero_eyebrow=?, hero_title=?, hero_subtitle=?, hero_image=?, story=?, footer_text=?, socials=? WHERE id=1"
   ).run(
     site_name ?? current.site_name,
     hero_eyebrow ?? current.hero_eyebrow,
     hero_title ?? current.hero_title,
     hero_subtitle ?? current.hero_subtitle,
+    hero_image ?? current.hero_image,
     story ?? current.story,
     footer_text ?? current.footer_text,
     socials ? JSON.stringify(socials) : current.socials
