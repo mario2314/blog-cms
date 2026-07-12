@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const db = require("./db");
 
 const app = express();
+app.set("trust proxy", 1);
+
 const JWT_SECRET = process.env.JWT_SECRET || "ganti-secret-ini-di-env";
 
 app.use(cors());
